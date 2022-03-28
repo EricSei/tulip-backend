@@ -43,6 +43,12 @@ public class Airline {
 		reviews = new HashSet<Review>();
 	}
 	
+	public Airline(String name) {
+		super();
+		this.airlineID = null;
+		this.airlineName = name;
+		this.reviews = new HashSet<Review>();
+	}
 
 	public Airline(Integer airlineID, String airlineName, Set<Review> reviews) {
 		super();
@@ -50,6 +56,7 @@ public class Airline {
 		this.airlineName = airlineName;
 		this.reviews = reviews;
 	}
+
 
 	@Override
 	public int hashCode() {
@@ -126,7 +133,8 @@ public class Airline {
 		this.reviews = reviews;
 	}
 	
-
-
+	public void addReview(Review rev) {
+		reviews.add(rev);
+	}
 	
 }

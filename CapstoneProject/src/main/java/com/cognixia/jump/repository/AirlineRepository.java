@@ -11,5 +11,7 @@ import com.cognixia.jump.model.Airline;
 
 @Repository
 public interface AirlineRepository extends JpaRepository<Airline, Integer> {
+
+	Optional<Airline> findByAirlineName(String name);
 	
 }

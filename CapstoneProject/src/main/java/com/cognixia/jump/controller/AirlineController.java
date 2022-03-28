@@ -32,7 +32,7 @@ import com.cognixia.jump.model.AuthenticationRequest;
 import com.cognixia.jump.model.AuthenticationResponse;
 import com.cognixia.jump.model.User;
 import com.cognixia.jump.service.JwtUserDetailsService;
-import com.cognixia.jump.service.ReviewService;
+import com.cognixia.jump.service.AirlineService;
 import com.cognixia.jump.util.JwtUtil;
 
 @RequestMapping("/api")
@@ -43,19 +43,19 @@ public class AirlineController {
 //	@Autowired
 //	AuthenticationManager authenticationManager;
 	
-	@Autowired
-	JwtUserDetailsService userDetailsService;
+//	@Autowired
+//	JwtUserDetailsService userDetailsService;
+//	
+//	@Autowired
+//	JwtUtil jwtUtil;
 	
 	@Autowired
-	JwtUtil jwtUtil;
-	
-	@Autowired
-	ReviewService serv;
+	AirlineService serv;
 	
 	@PostMapping("/airline")
 	public ResponseEntity<?> createAirline(@RequestBody Airline al) {
 		Airline update = serv.createAirline(al);
-		return ResponseEntity.status(201).body("Book " + al.getAirlineName() + " was created");
+		return ResponseEntity.status(201).body("Airline " + al.getAirlineName() + " was created");
 	}
 	
 //	R - (“/airline/id/{id}”) - gets airline get id - admin only
@@ -70,7 +70,6 @@ public class AirlineController {
 	@GetMapping("/airline/{name}")
 	public ResponseEntity<?> getAirlineByName(@PathVariable String name) {
 		Optional<Airline> temp = serv.getAirlineByName(name);
-		int id = temp.get().getAirlineID();
 		if(temp.isEmpty()) {
 			return ResponseEntity.status(404).body("Airline not found");
 		}
@@ -88,8 +87,16 @@ public class AirlineController {
 		return ResponseEntity.status(200).body(al); 
 	}
 	
-		
-	
+	@PutMapping("/airline/")
+	public ResponseEntity<?> updateAirline(@RequestBody Airline al) {
+		Airline update = serv.updateAirline(al);
+		if(update == null) {
+			return ResponseEntity.status(404).body("Airline " + al.getAirlineName() + " was not found");
+		}
+		else {
+			return ResponseEntity.status(202).body("Airline " + al.getAirlineName() + " was updated");
+		}
+	}
 	
 	@DeleteMapping("/airline/{name}")
 	public ResponseEntity<?> deleteAirline(@PathVariable String name) {
