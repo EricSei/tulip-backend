@@ -30,9 +30,11 @@ import com.cognixia.jump.exception.NoSuchUserException;
 import com.cognixia.jump.model.Airline;
 import com.cognixia.jump.model.AuthenticationRequest;
 import com.cognixia.jump.model.AuthenticationResponse;
+import com.cognixia.jump.model.Review;
 import com.cognixia.jump.model.User;
 import com.cognixia.jump.service.JwtUserDetailsService;
 import com.cognixia.jump.service.ReviewService;
+import com.cognixia.jump.service.AirlineService;
 import com.cognixia.jump.util.JwtUtil;
 
 @RequestMapping("/api")
@@ -50,11 +52,14 @@ public class AirlineController {
 	JwtUtil jwtUtil;
 	
 	@Autowired
-	ReviewService serv;
+	AirlineService airlineService;
+	
+	@Autowired
+	ReviewService reviewService;
 	
 	@PostMapping("/airline")
 	public ResponseEntity<?> createAirline(@RequestBody Airline al) {
-		Airline update = serv.createAirline(al);
+		Airline update = airlineService.createAirline(al);
 		return ResponseEntity.status(201).body("Book " + al.getAirlineName() + " was created");
 	}
 	
@@ -64,12 +69,12 @@ public class AirlineController {
 	
 	@GetMapping("/airline")
 	public List<Airline> getAllAirlines() {
-		return serv.getAllAirlines();
+		return airlineService.getAllAirlines();
 	}
 	
 	@GetMapping("/airline/{name}")
 	public ResponseEntity<?> getAirlineByName(@PathVariable String name) {
-		Optional<Airline> temp = serv.getAirlineByName(name);
+		Optional<Airline> temp = airlineService.getAirlineByName(name);
 		int id = temp.get().getAirlineID();
 		if(temp.isEmpty()) {
 			return ResponseEntity.status(404).body("Airline not found");
@@ -80,7 +85,7 @@ public class AirlineController {
 	
 	@GetMapping("/airline/id/{id}") 
 	public ResponseEntity<?> getAirlineByID(@PathVariable int id) {
-		Optional<Airline> found = serv.getAirlineById(id);
+		Optional<Airline> found = airlineService.getAirlineById(id);
 		if(found.isEmpty()) {
 			return ResponseEntity.status(404).body("Airline not found");
 		}
@@ -93,9 +98,9 @@ public class AirlineController {
 	
 	@DeleteMapping("/airline/{name}")
 	public ResponseEntity<?> deleteAirline(@PathVariable String name) {
-		Optional<Airline> temp = serv.getAirlineByName(name);
+		Optional<Airline> temp = airlineService.getAirlineByName(name);
 		int id = temp.get().getAirlineID();
-		if(serv.deleteAirlineById(id)) {
+		if(airlineService.deleteAirlineById(id)) {
 			return ResponseEntity.status(200).body("Airline:" + name + " was deleted");
 		}
 		return ResponseEntity.status(404).body("Book not found");	
@@ -106,5 +111,20 @@ public class AirlineController {
 
 //	U - (“/airline”) - updates airline info, admin only
 //	D - (“/airline”) - deletes airline info, admin only
+	
+	public ResponseEntity<?> createReview(@RequestBody Review review){
+		Optional<Review> created = reviewService.createReview(review);
+		if(created.isEmpty()) {
+			return ResponseEntity.status(404).body("Failed to create review");
+		}
+		return ResponseEntity.status(201).body(created.get());
+	}
+//	getUserReviews
+//	getReviewById
+//	getReviewsByUser
+//	getReviewsByAirline
+//	updateReview
+//	deleteReview
+	
 
 }
