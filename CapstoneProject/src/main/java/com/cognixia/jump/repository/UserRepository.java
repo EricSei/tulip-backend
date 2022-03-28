@@ -13,4 +13,7 @@ import com.cognixia.jump.model.User.Role;
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer> {
 	
+	public Optional<User> findByUsername(String username);
+	
+	public Optional<User> findByEmail(String email);
 }
