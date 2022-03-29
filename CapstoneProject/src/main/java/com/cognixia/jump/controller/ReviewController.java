@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cognixia.jump.exception.ResourceNotFoundException;
+import com.cognixia.jump.exception.UnAuthorizedException;
 import com.cognixia.jump.model.Review;
 import com.cognixia.jump.service.ReviewService;
 
@@ -33,7 +35,7 @@ public class ReviewController {
 	}
 	
 	@GetMapping("/review/myreview")
-	public List<Review> getUserReviews(){
+	public List<Review> getUserReviews() throws ResourceNotFoundException{
 		return reviewService.getUserReviews();
 	}
 	
@@ -43,27 +45,24 @@ public class ReviewController {
 	}
 	
 	@GetMapping("/review/{user}")
-	public List<Review> getReviewsByUser(@PathVariable String user){
+	public List<Review> getReviewsByUser(@PathVariable String user) throws ResourceNotFoundException{
 		return reviewService.getReviewsByUser(user);
 	}
 	
 	@GetMapping("/review/{airline}")
-	public List<Review> getReviewsByAirline(@PathVariable String airline){
+	public List<Review> getReviewsByAirline(@PathVariable String airline) throws ResourceNotFoundException{
 		return reviewService.getReviewsByAirline(airline);
 	}
 	
 	@PutMapping("/review")
-	public ResponseEntity<?> updateReview(@RequestBody Review review){
-		Optional<Review> updated = reviewService.updateReview(review);
-			if(updated.isEmpty()) {
-				return ResponseEntity.status(404).body("Failed to update review");
-			}
-			return ResponseEntity.status(200).body(updated.get());
+	public ResponseEntity<?> updateReview(@RequestBody Review review) throws ResourceNotFoundException, UnAuthorizedException{
+		Review updated = reviewService.updateReview(review);
+			return ResponseEntity.status(200).body(updated);
 		
 	}
 	
 	@DeleteMapping("review/{id}")
-	public ResponseEntity<?> deleteReview(@PathVariable int id){
+	public ResponseEntity<?> deleteReview(@PathVariable int id) throws ResourceNotFoundException, UnAuthorizedException{
 		Optional<Review> deleted = reviewService.deleteReview(id);
 		if(deleted.isEmpty()) {
 			return ResponseEntity.status(404).body("Failed to delete review");
