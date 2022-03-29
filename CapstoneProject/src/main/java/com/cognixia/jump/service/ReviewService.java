@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import com.cognixia.jump.model.Review;
 import com.cognixia.jump.repository.ReviewRepository;
@@ -20,8 +22,9 @@ public class ReviewService {
 	}
 
 	public List<Review> getUserReviews() {
-		// TODO Auto-generated method stub
-		return null;
+		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String user = userDetails.getUsername();
+		return repo.findByUser(user);
 	}
 
 	public List<Review> getReviewById(int id) {
