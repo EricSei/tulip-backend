@@ -139,11 +139,9 @@ public class AirlineController {
 	
 	@PostMapping("/review")
 	public ResponseEntity<?> createReview(@RequestBody Review review){
-		Optional<Review> created = reviewService.createReview(review);
-		if(created.isEmpty()) {
-			return ResponseEntity.status(404).body("Failed to create review");
-		}
-		return ResponseEntity.status(201).body(created.get());
+		Review created = reviewService.createReview(review);
+		
+		return ResponseEntity.status(201).body(created);
 	}
 	
 	@GetMapping("/review/myreview")
