@@ -31,7 +31,6 @@ import com.cognixia.jump.model.Airline;
 import com.cognixia.jump.model.AuthenticationRequest;
 import com.cognixia.jump.model.AuthenticationResponse;
 import com.cognixia.jump.model.User;
-import com.cognixia.jump.service.JwtUserDetailsService;
 import com.cognixia.jump.service.AirlineService;
 import com.cognixia.jump.util.JwtUtil;
 
@@ -43,8 +42,6 @@ public class AirlineController {
 //	@Autowired
 //	AuthenticationManager authenticationManager;
 	
-//	@Autowired
-//	JwtUserDetailsService userDetailsService;
 //	
 //	@Autowired
 //	JwtUtil jwtUtil;
@@ -87,7 +84,7 @@ public class AirlineController {
 		return ResponseEntity.status(200).body(al); 
 	}
 	
-	@PutMapping("/airline/")
+	@PutMapping("/airline")
 	public ResponseEntity<?> updateAirline(@RequestBody Airline al) {
 		Airline update = serv.updateAirline(al);
 		if(update == null) {

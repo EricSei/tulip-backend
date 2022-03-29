@@ -58,20 +58,16 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 			.antMatchers( HttpMethod.PUT, "/api/users").hasAnyRole("USER", "ADMIN")
 			.antMatchers( HttpMethod.GET, "/api/user/**").hasAnyRole("USER", "ADMIN")
 			.antMatchers( HttpMethod.DELETE, "/api/user/**").hasAnyRole("USER", "ADMIN")
-			.antMatchers( HttpMethod.GET, "/api/orders/**").hasAnyRole("USER", "ADMIN")
+			.antMatchers( HttpMethod.GET, "/api/airline/**").hasAnyRole("USER", "ADMIN")
+			.antMatchers( HttpMethod.POST, "/api/airline/**").hasAnyRole("ADMIN")
 			.antMatchers( HttpMethod.POST, "/api/authenticate").permitAll()	
-			.antMatchers( HttpMethod.GET, "/api/products").permitAll() //everyone can access product list
-			.antMatchers( HttpMethod.POST, "/api/products").hasRole("ADMIN") //everyone can access product list
-			.antMatchers( HttpMethod.GET, "/api/orders").hasAnyRole("USER")
-			.antMatchers( HttpMethod.GET, "/api/orders/**").hasAnyRole("USER")
-			.antMatchers( HttpMethod.POST, "/api/orders").hasAnyRole("USER")
 			.antMatchers( HttpMethod.GET, "/api/users").hasRole("ADMIN")
 			.antMatchers("/api/hello").hasAnyRole("USER","ADMIN")
 			.antMatchers("/**").hasRole("ADMIN")
 			.anyRequest().authenticated()
 			.and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		
-		http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+			http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 		
 		
 	}
