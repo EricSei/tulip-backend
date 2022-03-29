@@ -32,8 +32,11 @@ import com.cognixia.jump.model.AuthenticationRequest;
 import com.cognixia.jump.model.AuthenticationResponse;
 import com.cognixia.jump.model.Review;
 import com.cognixia.jump.model.User;
+<<<<<<< HEAD
 import com.cognixia.jump.service.JwtUserDetailsService;
 import com.cognixia.jump.service.ReviewService;
+=======
+>>>>>>> c44f639306334a084ba0238fa38d7132fe66e0c8
 import com.cognixia.jump.service.AirlineService;
 import com.cognixia.jump.util.JwtUtil;
 
@@ -45,10 +48,12 @@ public class AirlineController {
 //	@Autowired
 //	AuthenticationManager authenticationManager;
 	
-	@Autowired
-	JwtUserDetailsService userDetailsService;
+//	
+//	@Autowired
+//	JwtUtil jwtUtil;
 	
 	@Autowired
+<<<<<<< HEAD
 	JwtUtil jwtUtil;
 	
 	@Autowired
@@ -61,6 +66,14 @@ public class AirlineController {
 	public ResponseEntity<?> createAirline(@RequestBody Airline al) {
 		Airline update = airlineService.createAirline(al);
 		return ResponseEntity.status(201).body("Book " + al.getAirlineName() + " was created");
+=======
+	AirlineService serv;
+	
+	@PostMapping("/airline")
+	public ResponseEntity<?> createAirline(@RequestBody Airline al) {
+		Airline update = serv.createAirline(al);
+		return ResponseEntity.status(201).body("Airline " + al.getAirlineName() + " was created");
+>>>>>>> c44f639306334a084ba0238fa38d7132fe66e0c8
 	}
 	
 //	R - (“/airline/id/{id}”) - gets airline get id - admin only
@@ -74,8 +87,12 @@ public class AirlineController {
 	
 	@GetMapping("/airline/{name}")
 	public ResponseEntity<?> getAirlineByName(@PathVariable String name) {
+<<<<<<< HEAD
 		Optional<Airline> temp = airlineService.getAirlineByName(name);
 		int id = temp.get().getAirlineID();
+=======
+		Optional<Airline> temp = serv.getAirlineByName(name);
+>>>>>>> c44f639306334a084ba0238fa38d7132fe66e0c8
 		if(temp.isEmpty()) {
 			return ResponseEntity.status(404).body("Airline not found");
 		}
@@ -93,8 +110,16 @@ public class AirlineController {
 		return ResponseEntity.status(200).body(al); 
 	}
 	
-		
-	
+	@PutMapping("/airline")
+	public ResponseEntity<?> updateAirline(@RequestBody Airline al) {
+		Airline update = serv.updateAirline(al);
+		if(update == null) {
+			return ResponseEntity.status(404).body("Airline " + al.getAirlineName() + " was not found");
+		}
+		else {
+			return ResponseEntity.status(202).body("Airline " + al.getAirlineName() + " was updated");
+		}
+	}
 	
 	@DeleteMapping("/airline/{name}")
 	public ResponseEntity<?> deleteAirline(@PathVariable String name) {
