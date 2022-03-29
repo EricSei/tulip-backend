@@ -30,7 +30,11 @@ import com.cognixia.jump.exception.NoSuchUserException;
 import com.cognixia.jump.model.Airline;
 import com.cognixia.jump.model.AuthenticationRequest;
 import com.cognixia.jump.model.AuthenticationResponse;
+import com.cognixia.jump.model.Review;
 import com.cognixia.jump.model.User;
+
+import com.cognixia.jump.service.ReviewService;
+
 import com.cognixia.jump.service.AirlineService;
 import com.cognixia.jump.util.JwtUtil;
 
