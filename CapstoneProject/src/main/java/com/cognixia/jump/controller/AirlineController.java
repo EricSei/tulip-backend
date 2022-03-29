@@ -59,8 +59,7 @@ public class AirlineController {
 	@Autowired
 	AirlineService airlineService;
 	
-	@Autowired
-	ReviewService reviewService;
+	
 	
 	@PostMapping("/airline")
 	public ResponseEntity<?> createAirline(@RequestBody Airline al) {
@@ -137,50 +136,6 @@ public class AirlineController {
 //	U - (“/airline”) - updates airline info, admin only
 //	D - (“/airline”) - deletes airline info, admin only
 	
-	@PostMapping("/review")
-	public ResponseEntity<?> createReview(@RequestBody Review review){
-		Review created = reviewService.createReview(review);
-		
-		return ResponseEntity.status(201).body(created);
-	}
 	
-	@GetMapping("/review/myreview")
-	public List<Review> getUserReviews(){
-		return reviewService.getUserReviews();
-	}
-	
-	@GetMapping("/review/{id}")
-	public List<Review> getReviewById(@PathVariable int id){
-		return reviewService.getReviewById(id);
-	}
-	
-	@GetMapping("/review/{user}")
-	public List<Review> getReviewsByUser(@PathVariable String user){
-		return reviewService.getReviewsByUser(user);
-	}
-	
-	@GetMapping("/review/{airline}")
-	public List<Review> getReviewsByAirline(@PathVariable String airline){
-		return reviewService.getReviewsByAirline(airline);
-	}
-	
-	@PutMapping("/review")
-	public ResponseEntity<?> updateReview(@RequestBody Review review){
-		Optional<Review> updated = reviewService.updateReview(review);
-			if(updated.isEmpty()) {
-				return ResponseEntity.status(404).body("Failed to update review");
-			}
-			return ResponseEntity.status(200).body(updated.get());
-		
-	}
-	
-	@DeleteMapping("review/{id}")
-	public ResponseEntity<?> deleteReview(@PathVariable int id){
-		Optional<Review> deleted = reviewService.deleteReview(id);
-		if(deleted.isEmpty()) {
-			return ResponseEntity.status(404).body("Failed to delete review");
-		}
-		return ResponseEntity.status(200).body(deleted.get());
-	}
 	
 }
