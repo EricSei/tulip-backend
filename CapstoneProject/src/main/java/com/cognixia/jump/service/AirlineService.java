@@ -1,38 +1,5 @@
 package com.cognixia.jump.service;
 
-<<<<<<< HEAD
-import java.util.List;
-import java.util.Optional;
-
-import com.cognixia.jump.model.Airline;
-
-public class AirlineService {
-
-	public Airline createAirline(Airline al) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public List<Airline> getAllAirlines() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public Optional<Airline> getAirlineByName(String name) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public boolean deleteAirlineById(int id) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	public Optional<Airline> getAirlineById(int id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-=======
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -93,6 +60,5 @@ public class AirlineService {
 		return false;
 	}
 
->>>>>>> c44f639306334a084ba0238fa38d7132fe66e0c8
 
 }
