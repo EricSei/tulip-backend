@@ -62,12 +62,12 @@ public class Review {
 	
 	@JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY, optional=false)
-    @JoinColumn(name="userID")
+    @JoinColumn(name="userID", referencedColumnName="id")
     private User user;
 	
 	@JsonIgnore
     @ManyToOne(fetch=FetchType.LAZY, optional=false)
-    @JoinColumn(name="airlineID")
+    @JoinColumn(name="airlineID", referencedColumnName="airlineID")
     private Airline airline;
 
 	
