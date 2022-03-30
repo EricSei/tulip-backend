@@ -19,6 +19,7 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name="airlines")
@@ -34,7 +35,7 @@ public class Airline {
 //	@ManyToMany(mappedBy = "projects", cascade = { CascadeType.ALL })
 //  private Set<Flight> flights;
 	
-	@JsonIgnore
+	@JsonManagedReference
 	@OneToMany(mappedBy = "airline", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<Review> reviews;
 	

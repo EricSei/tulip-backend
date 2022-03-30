@@ -16,6 +16,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -56,7 +57,7 @@ public class User implements Serializable {
 	@Column(nullable = false)
 	private boolean enabled;
 	
-	@JsonIgnore
+	@JsonManagedReference
 	@OneToMany(mappedBy="user", cascade=CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<Review> reviews;
 	

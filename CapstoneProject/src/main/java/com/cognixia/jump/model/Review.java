@@ -22,6 +22,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -60,12 +61,12 @@ public class Review {
 	@Column
 	private String reviewText;
 	
-	@JsonIgnore
+	@JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY, optional=false)
     @JoinColumn(name="userID", referencedColumnName="id")
     private User user;
 	
-	@JsonIgnore
+	@JsonBackReference
     @ManyToOne(fetch=FetchType.LAZY, optional=false)
     @JoinColumn(name="airlineID", referencedColumnName="airlineID")
     private Airline airline;
