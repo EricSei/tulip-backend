@@ -11,10 +11,10 @@ import com.cognixia.jump.model.Review;
 @Repository
 public interface ReviewRepository extends JpaRepository<Review, Integer> {
 
-	@Query(" select r from review r where r.userID = ?1 ")
+	@Query(" select r from Review r where r.user.id = ?1 ")
 	public List<Review> findByUser(int userID);
 
-	@Query(" select r from review r where r.airlineID = ?1 ")
+	@Query(" select r from Review r where r.airline.airlineID = ?1 ")
 	public List<Review> findByAirline(int airlineID);
 	
 }

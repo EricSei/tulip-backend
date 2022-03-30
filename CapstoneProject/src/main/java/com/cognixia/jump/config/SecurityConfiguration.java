@@ -51,18 +51,29 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 		
 		http.csrf().disable()
 			.authorizeRequests()
-			.antMatchers( HttpMethod.GET, "/api/health").permitAll()	
-			.antMatchers( HttpMethod.GET, "/v3/api-docs/").hasAnyRole("USER", "ADMIN")
-			.antMatchers( HttpMethod.POST, "/api/users/login").permitAll()
-			.antMatchers( HttpMethod.POST, "/api/users").permitAll() //sign up
-			.antMatchers( HttpMethod.PUT, "/api/users").hasAnyRole("USER", "ADMIN")
-			.antMatchers( HttpMethod.GET, "/api/user/**").hasAnyRole("USER", "ADMIN")
+			// all auth routes
+			.antMatchers( HttpMethod.GET, 	"/api/health").permitAll()		
+			.antMatchers( HttpMethod.POST,  "/api/register").permitAll() //sign up
+			.antMatchers( HttpMethod.POST,  "/api/authenticate").permitAll() // sign in
+			//all users route
+			.antMatchers( HttpMethod.PUT, 	 "/api/users").hasAnyRole("USER", "ADMIN") 
+			.antMatchers( HttpMethod.GET, 	 "/api/user/**").hasAnyRole("USER", "ADMIN")
 			.antMatchers( HttpMethod.DELETE, "/api/user/**").hasAnyRole("USER", "ADMIN")
-			.antMatchers( HttpMethod.GET, "/api/airline/**").hasAnyRole("USER", "ADMIN")
-			.antMatchers( HttpMethod.POST, "/api/airline/**").hasAnyRole("ADMIN")
-			.antMatchers( HttpMethod.POST, "/api/authenticate").permitAll()	
-			.antMatchers( HttpMethod.GET, "/api/users").hasRole("ADMIN")
-			.antMatchers("/api/hello").hasAnyRole("USER","ADMIN")
+			.antMatchers( HttpMethod.GET, 	 "/api/users").hasRole("ADMIN")
+			//all airlines routes
+			.antMatchers( HttpMethod.GET, 		"/api/airline/**").hasAnyRole("USER", "ADMIN")
+			.antMatchers( HttpMethod.POST, 		"/api/airline/**").hasAnyRole("ADMIN")
+			.antMatchers( HttpMethod.DELETE, 	"/api/airline/**").hasAnyRole("ADMIN")
+			.antMatchers( HttpMethod.PUT, 		"/api/airline/**").hasAnyRole("ADMIN")
+			// all reviews routes
+			.antMatchers( HttpMethod.GET, 		"/api/review").permitAll()
+			.antMatchers( HttpMethod.GET, 		"/api/review/**").hasAnyRole("USER", "ADMIN")
+			.antMatchers( HttpMethod.POST, 		"/api/review/**").hasAnyRole("USER", "ADMIN")
+			.antMatchers( HttpMethod.DELETE, 	"/api/review/**").hasAnyRole("USER", "ADMIN")
+			.antMatchers( HttpMethod.PUT, 		"/api/review/**").hasAnyRole("USER", "ADMIN")
+			//swagger
+			.antMatchers( HttpMethod.GET, 	"/v3/api-docs/").hasAnyRole("USER", "ADMIN")
+			//Admin User all access
 			.antMatchers("/**").hasRole("ADMIN")
 			.anyRequest().authenticated()
 			.and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
