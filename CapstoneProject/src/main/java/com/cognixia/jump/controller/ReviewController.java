@@ -28,7 +28,7 @@ public class ReviewController {
 	
 	
 	@PostMapping("/review")
-	public ResponseEntity<?> createReview(@RequestBody Review review){
+	public ResponseEntity<?> createReview(@RequestBody Review review) throws ResourceNotFoundException{
 		Review created = reviewService.createReview(review);
 		
 		return ResponseEntity.status(201).body(created);

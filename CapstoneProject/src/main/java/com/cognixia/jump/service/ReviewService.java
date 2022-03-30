@@ -30,8 +30,21 @@ public class ReviewService {
 	@Autowired
 	AirlineRepository airlineRepo;
 
-	public Review createReview(Review review) {
+	public Review createReview(Review review) throws ResourceNotFoundException {
 		review.setReviewID(null);
+		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Optional<User> user = userRepo.findByUsername(userDetails.getUsername());
+		if (user.isEmpty()) {
+			throw new ResourceNotFoundException("User Not Found");
+		} else {
+			review.setUser(user.get());
+		}
+		Optional<Airline> airline = airlineRepo.findById(review.getAirline().getAirlineID());
+		if(airline.isEmpty()) {
+			throw new ResourceNotFoundException("Airline Not Found");
+		} else {
+			review.setAirline(airline.get());
+		}
 		repo.save(review);
 		return review;
 	}
@@ -74,6 +87,10 @@ public class ReviewService {
 		Optional<User> user = userRepo.findByUsername(userDetails.getUsername());
 		if (user.isEmpty()) {
 			throw new ResourceNotFoundException("User Not Found");
+		}
+		Optional<Airline> airline = airlineRepo.findById(newReview.getAirline().getAirlineID());
+		if(airline.isEmpty()) {
+			throw new ResourceNotFoundException("Airline Not Found");
 		}
 		Optional<Review> oldReview = repo.findById(newReview.getReviewID());
 		if (oldReview.isEmpty()) {
