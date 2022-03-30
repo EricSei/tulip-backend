@@ -1,7 +1,6 @@
 package com.cognixia.jump.repository;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -11,5 +10,11 @@ import com.cognixia.jump.model.Review;
 
 @Repository
 public interface ReviewRepository extends JpaRepository<Review, Integer> {
+
+	@Query(" select r from review r where r.userID = ?1 ")
+	public List<Review> findByUser(int userID);
+
+	@Query(" select r from review r where r.airlineID = ?1 ")
+	public List<Review> findByAirline(int airlineID);
 	
 }
