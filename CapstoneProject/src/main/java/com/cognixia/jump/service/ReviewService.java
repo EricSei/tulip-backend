@@ -30,7 +30,7 @@ public class ReviewService {
 	@Autowired
 	AirlineRepository airlineRepo;
 
-	public Review createReview(Review review) throws ResourceNotFoundException {
+	public Review createReview(String airlineName, Review review) throws ResourceNotFoundException {
 		review.setReviewID(null);
 		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		Optional<User> user = userRepo.findByUsername(userDetails.getUsername());
@@ -39,7 +39,7 @@ public class ReviewService {
 		} else {
 			review.setUser(user.get());
 		}
-		Optional<Airline> airline = airlineRepo.findById(review.getAirline().getAirlineID());
+		Optional<Airline> airline = airlineRepo.findByAirlineName(airlineName);
 		if(airline.isEmpty()) {
 			throw new ResourceNotFoundException("Airline Not Found");
 		} else {
