@@ -49,10 +49,11 @@ public class Airline {
 		this.airlineName = name;
 		this.reviews = new HashSet<Review>();
 	}
+	
 
 	public Airline(Integer airlineID, String airlineName, Set<Review> reviews) {
 		super();
-		this.airlineID = airlineID;
+		this.airlineID = null;
 		this.airlineName = airlineName;
 		this.reviews = reviews;
 	}

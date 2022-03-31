@@ -1,9 +1,5 @@
 package com.cognixia.jump.model;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -22,6 +18,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 
+import com.cognixia.jump.model.User.Role;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -62,7 +59,7 @@ public class Review {
 	
 	@JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY, optional=false)
-    @JoinColumn(name="userID")
+    @JoinColumn(name="id")
     private User user;
 	
 	@JsonIgnore
@@ -70,21 +67,32 @@ public class Review {
     @JoinColumn(name="airlineID")
     private Airline airline;
 
-	
 	public Review() {
-		this.reviewID = null;
+		this( "N/A", "N/A", 2, "N/A", "N/A");
 	}
 	
 	
-	public Review(Integer reviewID, String sourcePort, String destPort, @Max(10) @Min(1) int rating, String flightClass,
+	public Review(String sourcePort, String destPort, @Max(10) @Min(1) int rating, String flightClass,
 			String reviewText) {
 		super();
-		this.reviewID = reviewID;
+		this.reviewID = null;
 		this.sourcePort = sourcePort;
 		this.destPort = destPort;
 		this.rating = rating;
 		this.flightClass = flightClass;
 		this.reviewText = reviewText;
+	}
+	
+	public Review(String sourcePort, String destPort, @Max(10) @Min(1) int rating, String flightClass,
+			String reviewText, User user) {
+		super();
+		this.reviewID = null;
+		this.sourcePort = sourcePort;
+		this.destPort = destPort;
+		this.rating = rating;
+		this.flightClass = flightClass;
+		this.reviewText = reviewText;
+		this.user = user;
 	}
 
 	public Review(Integer reviewID, String sourcePort, String destPort, @Max(10) @Min(1) int rating, String flightClass,
