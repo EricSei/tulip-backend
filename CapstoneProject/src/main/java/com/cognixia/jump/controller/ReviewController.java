@@ -38,7 +38,7 @@ public class ReviewController {
 	UserService userService;
 	
 	
-	@PostMapping("users/{userId}/airlines/{airlineId}/reviews")
+	@PostMapping("review/users/{userId}/airlines/{airlineId}")
 	public ResponseEntity<?> createReview(@RequestBody Review review, @PathVariable int userId, @PathVariable int airlineId){
 		
 		Airline airline = airlineService.getAirlineById(airlineId).get();
@@ -62,12 +62,12 @@ public class ReviewController {
 		return reviewService.getReviewById(id);
 	}
 	
-	@GetMapping("/review/{user}")
+	@GetMapping("/review/user/{user}")
 	public List<Review> getReviewsByUser(@PathVariable String user) throws ResourceNotFoundException{
 		return reviewService.getReviewsByUser(user);
 	}
 	
-	@GetMapping("/review/{airline}")
+	@GetMapping("/review/airline/{airline}")
 	public List<Review> getReviewsByAirline(@PathVariable String airline) throws ResourceNotFoundException{
 		return reviewService.getReviewsByAirline(airline);
 	}
