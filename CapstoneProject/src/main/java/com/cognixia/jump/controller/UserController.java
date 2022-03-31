@@ -88,24 +88,24 @@ public class UserController {
 			throw new ResourceNotFoundException("user name not found");
 		}
 		User savedUser = found.get();
-		return ResponseEntity.status(201).body(savedUser);
+		return ResponseEntity.status(200).body(savedUser);
 		
 	}
 	
 	@GetMapping("/user/email/{email}")
-	public ResponseEntity<?> updateUser(@Valid @PathVariable String email){
+	public ResponseEntity<?> getUserByEmail(@Valid @PathVariable String email){
 		
 		
 		Optional<User> found = userService.getUserByEmail(email);
 		
 		if(found == null) {
 			return ResponseEntity
-					.status(401)
+					.status(404)
 					.body("error :" + "User with " + email+ "can not found");
 		}
 		
 		return ResponseEntity
-				.status(201)
+				.status(200)
 				.body(found.get());
 		
 	}
@@ -123,7 +123,7 @@ public class UserController {
 		}
 		
 		return ResponseEntity
-				.status(201)
+				.status(20)
 				.body(found.get());
 		
 	}
@@ -135,12 +135,23 @@ public class UserController {
 		
 		if(userService.deleteUserById(id)) {
 			return ResponseEntity
-					.status(201)
+					.status(200)
 					.body(id + "was deleted");
 		}
 		return ResponseEntity
-				.status(401)
+				.status(404)
 				.body(id + "was not found, or can't be deleted.");
+	}
+	
+	@PutMapping("/user")
+	public ResponseEntity<?> updateUser(@RequestBody User use) {
+		User update = userService.updateUser(use);
+		if(update == null) {
+			return ResponseEntity.status(404).body("User " + use.getUsername() + " was not found");
+		}
+		else {
+			return ResponseEntity.status(200).body("User " + use.getUsername() + " was updated");
+		}
 	}
 	
 }
