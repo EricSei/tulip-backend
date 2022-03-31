@@ -50,6 +50,10 @@ public class ReviewService {
 	public List<Review> getReviewById(int id) {
 		return repo.findByUser(id);
 	}
+	
+	public List<Review> getAllReviews() {
+		return repo.findAll();
+	}
 
 	public List<Review> getReviewsByUser(String username) throws ResourceNotFoundException {
 		Optional<User> user = userRepo.findByUsername(username);

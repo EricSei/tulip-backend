@@ -79,6 +79,11 @@ public class ReviewController {
 		
 	}
 	
+	@GetMapping("/reviews")
+	public List<Review> getReviews() throws Exception {
+		return reviewService.getAllReviews();
+	}
+	
 	@DeleteMapping("review/{id}")
 	public ResponseEntity<?> deleteReview(@PathVariable int id) throws ResourceNotFoundException, UnAuthorizedException{
 		Optional<Review> deleted = reviewService.deleteReview(id);
