@@ -3,6 +3,7 @@ package com.cognixia.jump.controller;
 import java.util.List;
 import java.util.Optional;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -16,8 +17,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cognixia.jump.exception.ResourceNotFoundException;
 import com.cognixia.jump.exception.UnAuthorizedException;
+import com.cognixia.jump.model.Airline;
 import com.cognixia.jump.model.Review;
+import com.cognixia.jump.model.User;
+import com.cognixia.jump.service.AirlineService;
 import com.cognixia.jump.service.ReviewService;
+import com.cognixia.jump.service.UserService;
 
 @RequestMapping("/api")
 @RestController
@@ -26,9 +31,22 @@ public class ReviewController {
 	@Autowired
 	ReviewService reviewService;
 	
+	@Autowired
+	AirlineService airlineService;
 	
-	@PostMapping("/review")
-	public ResponseEntity<?> createReview(@RequestBody Review review){
+	@Autowired
+	UserService userService;
+	
+	
+	@PostMapping("users/{userId}/airlines/{airlineId}/reviews")
+	public ResponseEntity<?> createReview(@RequestBody Review review, @PathVariable int userId, @PathVariable int airlineId){
+		
+		Airline airline = airlineService.getAirlineById(airlineId).get();
+		User user = userService.getUserByid(userId).get();
+		
+		review.setAirline(airline);
+		review.setUser(user);
+		
 		Review created = reviewService.createReview(review);
 		
 		return ResponseEntity.status(201).body(created);

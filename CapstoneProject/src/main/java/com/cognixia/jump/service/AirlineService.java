@@ -23,6 +23,7 @@ public class AirlineService {
 	//Create
 	
 	public Airline createAirline(Airline al) {
+		al.setAirlineID(null);
 		Airline newa = new Airline();
 		newa.setAirlineName(al.getAirlineName());
 		newa.setReviews(al.getReviews());
