@@ -28,10 +28,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 	@Autowired
 	JwtRequestFilter jwtRequestFilter;
 	
-	
-	// handle the Authentication( who are you?)
-	// lookup if the credentials ( username and password) passed through the request match any of the 
-	// users for this service
 	@Override
 	protected void configure( AuthenticationManagerBuilder auth) throws Exception {
 		
