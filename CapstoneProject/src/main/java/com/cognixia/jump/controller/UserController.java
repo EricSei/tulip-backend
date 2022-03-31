@@ -72,9 +72,8 @@ public class UserController {
 	
 	@PostMapping("/register")
 	public ResponseEntity<?> createUser(@Valid @RequestBody User user) throws Exception{
-		
+		System.out.println(user	);
 		User created = userService.createUser(user);
-		
 		return ResponseEntity.status(201).body(created);
 	}
 	
@@ -123,7 +122,7 @@ public class UserController {
 		}
 		
 		return ResponseEntity
-				.status(20)
+				.status(200)
 				.body(found.get());
 		
 	}

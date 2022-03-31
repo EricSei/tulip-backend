@@ -14,6 +14,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.PermissionEvaluator;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.security.test.context.support.WithUserDetails;
@@ -21,6 +22,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.web.context.WebApplicationContext;
@@ -34,6 +36,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -60,11 +63,17 @@ public class UserControllerTests {
 	@MockBean
 	UserDetailsService userDetailService;
 	
+	@MockBean
+	AuthenticationManager authMan;
+	
 	@InjectMocks
 	private UserController usercontroller;
 	
-//	@Autowired
-//	private ObjectMapper mapper;
+	@InjectMocks
+	private AuthController auth;
+	
+	@Autowired
+	private ObjectMapper mapper;
 	
 	@MockBean
 	JwtUtil jwtUtil;
@@ -72,6 +81,13 @@ public class UserControllerTests {
 	@Autowired
 	private MockMvc mvc;
 	
+	public static String asJsonString(final Object obj) {
+	    try {
+	        return new ObjectMapper().writeValueAsString(obj);
+	    } catch (Exception e) {
+	        throw new RuntimeException(e);
+	    }
+	}
 	
 	@Test
 	@WithMockUser(username = "admin", roles = {"USER","ADMIN"})
@@ -108,7 +124,6 @@ public class UserControllerTests {
 		String uri = STARTING_URI + "/user/user1";
 		
 		User test = new User("user1", "user1@gmail.com", "password");
-		test.setId(1);
 		
 		when(userserv.getUserByName("user1")).thenReturn(Optional.of(test));
 		
@@ -121,10 +136,57 @@ public class UserControllerTests {
 		verifyNoMoreInteractions(userserv);
 	}
 	
-//	@Test
-//	@WithMockUser(username = "admin", roles = {"USER","ADMIN"})
-//	void testGetUserByEmail() throws Exception {
-//		String uri = STARTING_URI + "/user/email/";
-//	
-//	}
+	@Test
+	@WithMockUser(username = "admin", roles = {"USER","ADMIN"})
+	void testGetUserByEmail() throws Exception {
+		String uri = STARTING_URI + "/user/email/user1@gmail.com";
+		
+		User test = new User("user1", "user1@gmail.com", "password");
+		
+		when(userserv.getUserByEmail("user1@gmail.com")).thenReturn(Optional.of(test));
+		
+		mvc.perform(get(uri))
+			.andDo(print())
+			.andExpect(status().isOk())
+			.andExpect(jsonPath("$.email").value("user1@gmail.com"));
+		
+		verify(userserv, times(1)).getUserByEmail("user1@gmail.com");
+		verifyNoMoreInteractions(userserv);
+	
+	}
+	
+	@Test
+	void testRegister() throws Exception {
+		String uri = STARTING_URI + "/register";
+		
+		User test = new User("user3", "user3@gmail.com", "password");
+		test.setId(1);
+		
+		mvc.perform( MockMvcRequestBuilders
+			      .post(uri)
+			      .content(asJsonString(test))
+			      .contentType(MediaType.APPLICATION_JSON)
+			      .accept(MediaType.APPLICATION_JSON))
+			      .andExpect(status().isCreated());
+        verify(userserv, times(1)).createUser(test);
+	}
+	
+	@Test
+	void testAuthenticate() throws Exception {
+		String uri = STARTING_URI + "/authenticate";
+		User test = new User("user3", "user3@gmail.com", "password");
+		test.setId(1);
+		
+		mvc.perform( MockMvcRequestBuilders
+			      .post(uri)
+			      .content(asJsonString(test))
+			      .contentType(MediaType.APPLICATION_JSON)
+			      .accept(MediaType.APPLICATION_JSON))
+			      .andExpect(status().isCreated());
+		
+		verify(userserv, times(1)).createUser(test);
+		
+	}
+	
+	
 }

@@ -59,13 +59,13 @@ public class Airline {
 	}
 
 
+	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((airlineID == null) ? 0 : airlineID.hashCode());
 		result = prime * result + ((airlineName == null) ? 0 : airlineName.hashCode());
-		result = prime * result + ((reviews == null) ? 0 : reviews.hashCode());
 		return result;
 	}
 
@@ -81,25 +81,11 @@ public class Airline {
 			return false;
 		}
 		Airline other = (Airline) obj;
-		if (airlineID == null) {
-			if (other.airlineID != null) {
-				return false;
-			}
-		} else if (!airlineID.equals(other.airlineID)) {
-			return false;
-		}
 		if (airlineName == null) {
 			if (other.airlineName != null) {
 				return false;
 			}
 		} else if (!airlineName.equals(other.airlineName)) {
-			return false;
-		}
-		if (reviews == null) {
-			if (other.reviews != null) {
-				return false;
-			}
-		} else if (!reviews.equals(other.reviews)) {
 			return false;
 		}
 		return true;
