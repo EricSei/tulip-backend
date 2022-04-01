@@ -57,7 +57,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 			.antMatchers( HttpMethod.DELETE, "/api/user/**").hasAnyRole("USER", "ADMIN")
 			.antMatchers( HttpMethod.GET, 	 "/api/user").hasRole("ADMIN")
 			//all airlines routes
-			.antMatchers( HttpMethod.GET, 		"/api/airline/**").hasAnyRole("USER", "ADMIN")
+			.antMatchers( HttpMethod.GET, 		"/api/airline/**").permitAll()	
 			.antMatchers( HttpMethod.POST, 		"/api/airline/**").hasAnyRole("ADMIN")
 			.antMatchers( HttpMethod.DELETE, 	"/api/airline/**").hasAnyRole("ADMIN")
 			.antMatchers( HttpMethod.PUT, 		"/api/airline/**").hasAnyRole("ADMIN")

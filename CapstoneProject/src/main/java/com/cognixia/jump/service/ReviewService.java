@@ -35,7 +35,9 @@ public class ReviewService {
 		repo.save(review);
 		return review;
 	}
-
+	public List<Review> getAllReview() {
+		return repo.findAll();
+	}	
 	public List<Review> getUserReviews() throws ResourceNotFoundException {
 		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		String username = userDetails.getUsername();

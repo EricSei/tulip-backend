@@ -54,6 +54,11 @@ public class ReviewController {
 		return ResponseEntity.status(201).body(created);
 	}
 	
+	@GetMapping("/review")
+	public List<Review> getAllReview() {
+		return reviewService.getAllReview();
+	}
+	
 	@GetMapping("/review/myreview")
 	public List<Review> getUserReviews() throws ResourceNotFoundException{
 		return reviewService.getUserReviews();
