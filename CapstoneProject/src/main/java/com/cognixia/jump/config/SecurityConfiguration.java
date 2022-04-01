@@ -52,10 +52,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 			.antMatchers( HttpMethod.POST,  "/api/register").permitAll() //sign up
 			.antMatchers( HttpMethod.POST,  "/api/authenticate").permitAll() // sign in
 			//all users route
-			.antMatchers( HttpMethod.PUT, 	 "/api/users").hasAnyRole("USER", "ADMIN") 
+			.antMatchers( HttpMethod.PUT, 	 "/api/user/**").hasAnyRole("USER", "ADMIN") 
 			.antMatchers( HttpMethod.GET, 	 "/api/user/**").hasAnyRole("USER", "ADMIN")
 			.antMatchers( HttpMethod.DELETE, "/api/user/**").hasAnyRole("USER", "ADMIN")
-			.antMatchers( HttpMethod.GET, 	 "/api/users").hasRole("ADMIN")
+			.antMatchers( HttpMethod.GET, 	 "/api/user").hasRole("ADMIN")
 			//all airlines routes
 			.antMatchers( HttpMethod.GET, 		"/api/airline/**").hasAnyRole("USER", "ADMIN")
 			.antMatchers( HttpMethod.POST, 		"/api/airline/**").hasAnyRole("ADMIN")
