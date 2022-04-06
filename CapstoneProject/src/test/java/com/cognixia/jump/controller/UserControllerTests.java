@@ -182,7 +182,7 @@ public class UserControllerTests {
 			      .content(asJsonString(test))
 			      .contentType(MediaType.APPLICATION_JSON)
 			      .accept(MediaType.APPLICATION_JSON))
-			      .andExpect(status().isCreated());
+			      .andExpect(status().isOk());
 		
 		verify(userserv, times(1)).createUser(test);
 		
